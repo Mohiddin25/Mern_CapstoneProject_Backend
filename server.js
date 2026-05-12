@@ -13,8 +13,11 @@ import cors from 'cors'
 config()
 // creating an express application
 const app=exp()
+// creating an express application
+const app=exp()
 app.use(cors({
-    origin:['http://localhost:5173'],
+    origin:['https://mern-capstoneproject-frontend-mohiddin-s-projects.vercel.app/'],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials:true
 }))
 // body parser middleware
