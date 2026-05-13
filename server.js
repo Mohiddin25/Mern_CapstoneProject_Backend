@@ -13,11 +13,12 @@ dotenv.config();
 
 // creating an express application
 const app=exp()
+// server.js
 app.use(cors({
-    origin:['https://mern-capstoneproject-frontend-mohiddin-s-projects.vercel.app/'],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials:true
-}))
+  origin: ['https://mern-capstoneproject-frontend-mohiddin-s-projects.vercel.app'],  // ✅ removed trailing slash /
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],  // ✅ also add PATCH — you were missing it
+  credentials: true
+}));
 // body parser middleware
 app.use(exp.json())
 app.use(cookieParser())
@@ -31,7 +32,6 @@ app.use("/auth",commonApp);
 
 const connectDB=async()=>{
     try{
-        console.log(process.env.DB_URL)
         await connect(process.env.DB_URL)
         console.log("DB connected")
         const port=process.env.PORT || 4000

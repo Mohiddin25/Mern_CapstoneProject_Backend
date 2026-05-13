@@ -3,25 +3,30 @@ import {UserModel} from '../models/UserModel.js'
 import {hash,compare} from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { verifyToken } from '../middlewares/verifyToken.js'
+import multer from 'multer'
 const {sign}=jwt
 export const commonApp=exp.Router()
 
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
+
 // Route for register
-commonApp.post('/user',async(req,res)=>{
-    let allowedRoles=['USER',"AUTHOR"]
-    // get user from request
-    const newUser=req.body
-    // check roles
-    if(!allowedRoles.includes(newUser.role)){
-        return res.status(400).json({message:"Invalid role"})
-    }
-    // Hash password and replace plain with hashed one
-    newUser.password=await hash(newUser.password,12)
-    // create new user document
-    const newUserDocument=new UserModel(newUser)
-    // save document
-    await newUserDocument.save()
-    res.status(201).json({message:"User created"})
+commonApp.post('/user', upload.single('profileImageUrl'), async (req, res) => {
+  let allowedRoles = ['USER', 'AUTHOR']
+
+  const newUser = req.body  // ✅ now populated because multer parsed multipart
+
+  if (!allowedRoles.includes(newUser.role)) {
+    return res.status(400).json({ message: "Invalid role" })
+  }
+
+  // file is in req.file if you want to save it to cloudinary later
+  // for now just ignore it and save user without image
+  newUser.password = await hash(newUser.password, 12)
+
+  const newUserDocument = new UserModel(newUser)
+  await newUserDocument.save()
+  res.status(201).json({ message: "User created" })
 })
 // Route for Login (USER,ADMIN,AUTHOR)
 commonApp.post('/login',async(req,res)=>{
