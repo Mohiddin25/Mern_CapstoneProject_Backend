@@ -1,5 +1,5 @@
 import exp from 'express'
-import {config} from 'dotenv'
+
 import {connect} from 'mongoose'
 import {adminApp} from './APIs/AdminAPI.js'
 import {authorApp} from './APIs/AuthorAPI.js'
@@ -7,12 +7,10 @@ import {userApp} from './APIs/UserAPI.js'
 import {commonApp} from './APIs/CommonAPI.js'
 import  cookieParser from 'cookie-parser'
 import cors from 'cors'
+import dotenv from "dotenv";
+dotenv.config();
 
 
-
-config()
-// creating an express application
-const app=exp()
 // creating an express application
 const app=exp()
 app.use(cors({
@@ -33,6 +31,7 @@ app.use("/auth",commonApp);
 
 const connectDB=async()=>{
     try{
+        console.log(process.env.DB_URL)
         await connect(process.env.DB_URL)
         console.log("DB connected")
         const port=process.env.PORT || 4000
