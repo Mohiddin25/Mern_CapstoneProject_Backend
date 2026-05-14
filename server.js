@@ -17,7 +17,7 @@ const app=exp()
 // server.js
 app.use(cors({
   origin: ['https://mern-capstoneproject-frontend-mohiddin-s-projects.vercel.app',"http://localhost:5173"],  
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],  // ✅ also add PATCH — you were missing it
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
   credentials: true
 }));
 // body parser middleware

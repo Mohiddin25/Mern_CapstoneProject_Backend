@@ -49,13 +49,20 @@ authorApp.put('/articles',verifyToken('AUTHOR'),async(req,res)=>{
 
 // Soft delete
 authorApp.patch("/articles",verifyToken("AUTHOR"),async(req,res)=>{
-    const authorIdOfToken=req.user?.id
-    const {articleID,isArticleActive}=req.body
-    let updatedArticleObj=await ArticleModel.findOne({_id:articleID,author:authorIdOfToken})
-    if(isArticleActive===updatedArticleObj.isArticleActive){
-        return res.status(200).json({message:"Article already in the same state"})
+    try{
+        const authorIdOfToken=req.user?.id
+        const {articleID,isArticleActive}=req.body
+        let updatedArticleObj=await ArticleModel.findOne({_id:articleID,author:authorIdOfToken})
+        if(isArticleActive===updatedArticleObj.isArticleActive){
+            return res.status(200).json({message:"Article already in the same state"})
+        }
+        updatedArticleObj.isArticleActive=isArticleActive
+        await updatedArticleObj.save()
+        res.status(200).json({message:"Article",payload:updatedArticleObj})
+
+    } catch (error) {
+        console.log(error);
+        console.error(error);
+        res.status(500).json({message:"Internal server error"});
     }
-    updatedArticleObj.isArticleActive=isArticleActive
-    await updatedArticleObj.save()
-    res.status(200).json({message:"Article",payload:updatedArticleObj})
 })
