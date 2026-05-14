@@ -16,7 +16,7 @@ dotenv.config();
 const app=exp()
 // server.js
 app.use(cors({
-  origin: ['https://mern-capstoneproject-frontend-mohiddin-s-projects.vercel.app'],  // ✅ removed trailing slash /
+  origin: ['https://mern-capstoneproject-frontend-mohiddin-s-projects.vercel.app',"http://localhost:5173"],  
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],  // ✅ also add PATCH — you were missing it
   credentials: true
 }));

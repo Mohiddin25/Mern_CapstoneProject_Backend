@@ -47,8 +47,8 @@ commonApp.post('/login',async(req,res)=>{
     // store the token in httpOnly cookie
     res.cookie("token",signedToken,{
         httpOnly:true,
-        sameSite:"lax",
-        secure:false
+        sameSite:"None",
+        secure:true
     })
     // delete password from user object
     const userObj=user.toObject()
