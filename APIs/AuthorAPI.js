@@ -51,7 +51,7 @@ authorApp.put('/articles',verifyToken('AUTHOR'),async(req,res)=>{
 authorApp.patch("/articles",verifyToken("AUTHOR"),async(req,res)=>{
     try{
         const authorIdOfToken=req.user?.id
-        const {articleID,isArticleActive}=req.body
+        const {articleId,isArticleActive}=req.body
         let updatedArticleObj=await ArticleModel.findOne({_id:articleID,author:authorIdOfToken})
         // article not found
       if (!updatedArticleObj) {
