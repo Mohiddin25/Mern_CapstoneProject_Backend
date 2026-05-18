@@ -14,9 +14,9 @@ userApp.get("/articles",verifyToken("USER"),async(req,res)=>{
 // Add comment to an article
 userApp.put("/articles",verifyToken("USER"),async(req,res)=>{
     // get body from the req
-    const {articleID,comment}=req.body
+    const {articleId,comment}=req.body
     // check article 
-    const articleDocument=await ArticleModel.findOne({_id:articleID,isArticleActive:true})
+    const articleDocument=await ArticleModel.findOne({_id:articleId,isArticleActive:true})
     // if article not fount
     if(!articleDocument){
         return res.status(404).json({message:"Article not found"})
